@@ -462,6 +462,9 @@ func getCredentials(service *osb.Service, outputs []*cloudformation.Output, ssmS
 			credentials = cfpostgrecreds(credentials)
 		case "s3":
 			credentials = cfs3creds(credentials)
+		case "auroramysql":
+			credentials = cfauroramysql(credentials)
+
 		}
 	}
 

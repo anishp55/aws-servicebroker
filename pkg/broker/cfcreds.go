@@ -47,6 +47,27 @@ func cfpostgrecreds(c map[string]interface{}) map[string]interface{} {
 	return p
 }
 
+func cfauroramysql(c map[string]interface{}) map[string]interface{} {
+	my := make(map[string]interface{})
+
+	my["name"] = c["DBName"]
+	my["host"] = c["ClusterEndpoint"]
+	my["hostname"] = c["ClusterEndpoint"]
+	my["port"] = c["Port"]
+	my["password"] = c["DBPassword"]
+	my["username"] = c["DBUsername"]
+	my["readerendpoint"] = c["ReaderEndpoint"]
+	my["jdbcUrl"] = "jdbc:mysql://" + my["host"].(string) + ":"
+	my["jdbcUrl"] = my["jdbcUrl"].(string) + my["port"].(string) + "/"
+	my["jdbcUrl"] = my["jdbcUrl"].(string) + my["name"].(string) + "?user="
+	my["jdbcUrl"] = my["jdbcUrl"].(string) + my["username"].(string) + "&password="
+	my["jdbcUrl"] = my["jdbcUrl"].(string) + my["password"].(string) + "&useSSL=false"
+	my["uri"] = "mysql://" + my["username"].(string) + ":" + my["password"].(string)
+	my["uri"] = my["uri"].(string) + "@" + my["host"].(string) + ":" + my["port"].(string)
+	my["uri"] = my["uri"].(string) + "/" + my["name"].(string) + "?reconnect=true"
+
+}
+
 func cfs3creds(c map[string]interface{}) map[string]interface{} {
 	c["access_key_id"] = c["S3AwsAccessKeyId"]
 	c["secret_access_key"] = c["S3AwsSecretAccessKey"]
